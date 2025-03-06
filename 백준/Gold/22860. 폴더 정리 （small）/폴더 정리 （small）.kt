@@ -15,17 +15,9 @@ fun main() {
         val isFolder = (info[2].toInt() == 1)
 
         if (isFolder) { // 폴더면
-            if (folderMap[parent] != null) {
-                folderMap[parent]!!.add(me)
-            } else {
-                folderMap[parent] = mutableListOf(me)
-            }
+            folderMap[parent]?.add(me) ?: run { folderMap[parent] = mutableListOf(me) }
         } else { // 파일이면
-            if (fileMap[parent] != null) {
-                fileMap[parent]!!.add(me)
-            } else {
-                fileMap[parent] = mutableListOf(me)
-            }
+            fileMap[parent]?.add(me) ?: run { fileMap[parent] = mutableListOf(me) }
         }
     }
     val answerMap: MutableMap<String, List<String>> = mutableMapOf()
