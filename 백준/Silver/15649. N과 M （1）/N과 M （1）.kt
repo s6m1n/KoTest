@@ -1,27 +1,20 @@
-import java.io.BufferedReader
-import java.io.InputStreamReader
-
-private val reader = BufferedReader(InputStreamReader(System.`in`))
-
 fun main() {
-    val (N, M) = reader.readLine().split(" ").map { it.toInt() }
-
-    val stack = IntArray(M)
-    backTracking(stack, 0, N, M)
+    val (N, M) = readln().split(" ").map { it.toInt() }
+    val nums = (1..N).toList().toIntArray() // 뽑을 수 있는 후보들
+    val answer = IntArray(M)
+    back(answer.copyOf(), nums, 0)
 }
 
-fun backTracking(stack: IntArray, idx: Int, N: Int, M: Int) {
-    for (i in 1..N) { // N개 검사할 거임
-        if (!stack.contains(i)) { // 만약 없으면 넣어주기
-            stack[idx] = i
-            if (idx < M - 1) {
-                backTracking(stack, idx + 1, N, M)
-            } else {
-
-//                stack.forEach { print(it) }
-                println(stack.joinToString(" "))
+fun back(answer: IntArray, nums: IntArray, idx: Int) {
+    if (idx == answer.size) {
+        println(answer.joinToString(" "))
+        return
+    } else {
+        for (i in nums.indices) {
+            if (!answer.contains(nums[i])) {
+                answer[idx] = nums[i]
+                back(answer.copyOf(), nums, idx + 1)
             }
-            stack[idx] = 0
         }
     }
 }
