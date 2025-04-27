@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.0.10"
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
 }
 
 group = "org.example"
@@ -19,8 +20,13 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.8")
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks {
+    test {
+        useJUnitPlatform()
+    }
+    ktlint {
+        verbose.set(true)
+    }
 }
 kotlin {
     jvmToolchain(17)
