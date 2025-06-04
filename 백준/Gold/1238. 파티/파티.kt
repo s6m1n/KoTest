@@ -1,22 +1,24 @@
-import java.util.*
+import java.util.PriorityQueue
 
-lateinit var graph: Array<MutableList<IntArray>>
 fun main() = with(System.`in`.bufferedReader()) {
     val (N, M, X) = readLine().split(" ").map { it.toInt() }
-    val answers = IntArray(N + 1)
-    graph = Array(N + 1) { mutableListOf() }
+    val graph = Array(N + 1) { mutableListOf<IntArray>() }
+    val reversedGraph = Array(N + 1) { mutableListOf<IntArray>() }
     repeat(M) {
         val (start, end, weight) = readLine().split(" ").map { it.toInt() }
         graph[start] += intArrayOf(end, weight)
+        reversedGraph[end] += intArrayOf(start, weight)
     }
+    val arr = dijkstra(X, N, graph)
+    val reversedArr = dijkstra(X, N, reversedGraph)
+    var max = 0
     for (n in 1..N) {
-        if (n == X) continue
-        answers[n] = (dijkstra(X, n, N) + dijkstra(n, X, N))
+        if (max < arr[n] + reversedArr[n]) max = arr[n] + reversedArr[n]
     }
-    println(answers.max())
+    println(max)
 }
 
-fun dijkstra(start: Int, end: Int, N:Int): Int {
+fun dijkstra(start: Int, N: Int, graph: Array<MutableList<IntArray>>): IntArray {
     val dijArr = IntArray(N + 1) { Int.MAX_VALUE }
     dijArr[start] = 0
     val pq = PriorityQueue<IntArray>(compareBy { it[1] })
@@ -31,5 +33,5 @@ fun dijkstra(start: Int, end: Int, N:Int): Int {
             }
         }
     }
-    return dijArr[end]
+    return dijArr
 }
