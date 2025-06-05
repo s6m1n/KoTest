@@ -4,7 +4,7 @@
 
 <br>
 
-### 🥞 Algorithmic Problems
+### 🥞 Problem Solving
 This repository includes solutions to algorithmic problems solved in Kotlin.  
 Problems are primarily sourced from [LeetCode](https://leetcode.com/), [Baekjoon Online Judge](https://www.acmicpc.net/), [Programmers](https://programmers.co.kr/).
 
@@ -19,9 +19,9 @@ This repository contains learning tests written to explore and better understand
 
 ```kotlin
 KoTest
-├── 📂 leetcode     // algorithmic problems
-├── 📂 백준          // algorithmic problems
-├── 📂 프로그래머스    // algorithmic problems
+├── 📂 leetcode     // ps
+├── 📂 백준          // ps
+├── 📂 프로그래머스    // ps
 └── 📂 src
     └── 📂 test     // study tests
 ```
