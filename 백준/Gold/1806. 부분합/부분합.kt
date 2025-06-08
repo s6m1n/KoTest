@@ -7,7 +7,7 @@ fun main() = with(System.`in`.bufferedReader()) {
     var min = Int.MAX_VALUE
     while (right < N) {
         sum += arr[right++]
-        while (S <= sum && left < right) { // left 이동시킬 조건
+        while (S <= sum) { // left 이동시킬 조건
             sum -= arr[left++]
             min = minOf(min, right - left + 1)
         }
