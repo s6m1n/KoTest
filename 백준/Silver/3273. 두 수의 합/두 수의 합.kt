@@ -1,23 +1,14 @@
 fun main() = with(System.`in`.bufferedReader()) {
-    val n = readLine().toInt()
-    val array = readLine().split(" ").map { it.toInt() }.sorted()
+    val N = readLine().toInt()
+    val arr = readLine().split(" ").map { it.toInt() }
     val x = readLine().toInt()
+    val map = mutableMapOf<Int, Int>()
     var cnt = 0
-    var start = 0
-    var end = n - 1
-    while (start < end) {
-        when {
-            (array[start] + array[end] == x) -> {
-                cnt++; start++; end--
-            }
-
-            (array[start] + array[end] < x) -> {
-                start++
-            }
-
-            (x < array[start] + array[end]) -> {
-                end--
-            }
+    for (idx in 0..<N) {
+        if (map[arr[idx]] == 1) { // 나랑 쌍인 친구가 있으면
+            cnt++
+        } else {
+            map[x - arr[idx]] = 1
         }
     }
     println(cnt)
