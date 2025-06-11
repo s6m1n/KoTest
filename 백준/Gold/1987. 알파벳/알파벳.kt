@@ -1,29 +1,30 @@
-fun main() =
-    with(System.`in`.bufferedReader()) {
-        val (R, C) = readLine().split(" ").map { it.toInt() }
-        val arr = Array(R) { readLine() }
-        val isChecked = BooleanArray(27) { false }
-        isChecked[arr[0][0].getCode()] = true
-        println(dfs(0, 0, arr, isChecked, R, C))
-    }
+var r: Int = 0
+var c: Int = 0
 
-fun Char.getCode() = this.code - 'A'.code
-fun dfs(y: Int, x: Int, arr: Array<String>, isChecked: BooleanArray, R: Int, C: Int): Int {
-    var max = isChecked.count { it }
-    for (i in 0..3) {
-        val newY = y + dy[i]
-        val newX = x + dx[i]
-        if (newY in 0..<R && newX in 0..<C) { // 갈 수 있는 범위면
-            val newChar = arr[newY][newX]
-            if (!isChecked[newChar.getCode()]) { // 새로운 문자면
-                val newChecked = isChecked.copyOf()
-                newChecked[newChar.getCode()] = true
-                max = maxOf(max, dfs(newY, newX, arr, newChecked, R, C))
+fun main(): Unit = with(System.`in`.bufferedReader()) {
+    val (R, C) = readLine().split(" ").map { it.toInt() }
+    r = R
+    c = C
+    val arr: Array<String> = Array(R) { readLine() }
+    val mask = 0
+    println(dfs(0, 0, arr, mask.on(arr[0][0])))
+}
+
+fun dfs(y: Int, x: Int, arr: Array<String>, mask: Int): Int {
+    var max = mask.countOneBits()
+    for (idx in 0..3) {
+        val newY = y + dy[idx]
+        val newX = x + dx[idx]
+        if (newY in 0..<r && newX in 0..<c) { // 검사 가능한 범위
+            if (arr[newY][newX].check(mask).not()) { // 처음 보는 알파벳이면
+                max = maxOf(max, dfs(newY, newX, arr, mask.on(arr[newY][newX])))
             }
         }
     }
     return max
 }
 
-val dy = intArrayOf(1, 0, -1, 0)
-val dx = intArrayOf(0, 1, 0, -1)
+val dy = intArrayOf(0, 1, 0, -1)
+val dx = intArrayOf(1, 0, -1, 0)
+fun Char.check(mask: Int): Boolean = (mask and (1 shl (this.code - 'A'.code))) != 0
+fun Int.on(char: Char): Int = this or (1 shl (char.code - 'A'.code))
